@@ -2,7 +2,7 @@ VERSION = 6.12.1
 REL = $(VERSION)-1
 THREADS = $(shell nproc)
 PRIORITY = 0
-REPO=metal3d/xmrig
+REPO=dunkbing/xmrig
 
 HUB=https://hub.docker.com/v2
 
@@ -14,7 +14,6 @@ build:
 
 run:
 	docker run --rm -it -e THREADS=$(THREADS) -e PRIORITY=$(PRIORITY) $(REPO):$(REL)
-
 
 deploy: build
 	docker push $(REPO):$(REL)
