@@ -2,12 +2,13 @@ FROM alpine
 
 LABEL maintainer="Patrice Ferlet <metal3d@gmail.com>"
 
-ARG VERSION=6.12.1
-    
+ARG VERSION=6.18.0
+
 RUN set -xe;\
     echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories; \
     apk update; \
     apk add util-linux build-base cmake libuv-static libuv-dev openssl-dev hwloc-dev@community; \
+    apk add --update nodejs npm; \
     wget https://github.com/xmrig/xmrig/archive/v${VERSION}.tar.gz; \
     tar xf v${VERSION}.tar.gz; \
     mkdir -p xmrig-${VERSION}/build; \
@@ -22,14 +23,14 @@ RUN set -xe;\
     apk del cmake; \
     apk add hwloc@community;
 
-ENV POOL_USER="44vjAVKLTFc7jxTv5ij1ifCv2YCFe3bpTgcRyR6uKg84iyFhrCesstmWNUppRCrxCsMorTP8QKxMrD3QfgQ41zsqMgPaXY5" \
+ENV POOL_USER="42q2w7GGQeUbCGsReRzUrgdiQRXfo3Kezadvi8ALfvbSWXYr9dG1bnGUqaLN3X6SjgX5ozzUQMZwaKMt4zfNb7cwMSU82CG" \
     POOL_PASS="" \
     POOL_URL="xmr.metal3d.org:8080" \
-    DONATE_LEVEL=5 \
+    DONATE_LEVEL=1 \
     PRIORITY=0 \
     THREADS=0
 
-ADD entrypoint.sh /entrypoint.sh
-WORKDIR /tmp
+WORKDIR /usr/src/app
+COPY main.js ./
 EXPOSE 3000
-CMD ["/entrypoint.sh"]
+CMD ["node", "main.js"]
